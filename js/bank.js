@@ -1,108 +1,64 @@
-// deposite
+// functional bank
 
-document.getElementById('deposite-btn').addEventListener('click', function() {
+// get new deposite & new withdraw amount
+function inputId (getId) {
+    var newInput = document.getElementById(getId);
+    var newAmountText = newInput.value;
+    var newAmount = parseFloat(newAmountText);
+    newInput.value = '';
+    return newAmount;
+}
 
-    // get new deposite amount
-    var newDeposite = document.getElementById('deposite-input');
-    var newDepositeAmountText = newDeposite.value;
-    // console.log(newDepositeAmountText);
-    var newDepositeAmount = parseFloat(newDepositeAmountText);
-    // console.log(newDepositeAmount);
-    newDeposite.value = '';
+// get previous deposite & previous withdraw amount
+function previous (getDepoWitId, newAddedAmount) {
+    // get previous amoubt on deposite & withdraw
+    var previousMoney = document.getElementById(getDepoWitId);
+    var previousAmountText = previousMoney.innerText;
+    var previousAmount = parseFloat(previousAmountText);
+    // total deposite & withdraw
+    var newTotalAmount = newAddedAmount + previousAmount;
+    previousMoney.innerText = newTotalAmount;
+}
 
-    // get previous amoubt on deposite
-    var previousDeposite = document.getElementById('deposite-total');
-    var previousDepositeAmountText = previousDeposite.innerText;
-    var previousDepositeAmount = parseFloat(previousDepositeAmountText);
-    
-    // total deposite
-    var newTotalDeposite = newDepositeAmount + previousDepositeAmount;
-    previousDeposite.innerText = newTotalDeposite;
-
-
-    /* update account balance */
-    // get previous balance
+// get previous balance
+function balance() {
     var previousBalance = document.getElementById('balance-total');
     var previousBalanceAmountText = previousBalance.innerText;
     var previousBalanceAmount = parseFloat(previousBalanceAmountText);
+    return previousBalanceAmount;
+}
 
+// update balance after deposite & withdraw
+function updateBalance (newAddedAmount, add){
+    var previousBalance = document.getElementById('balance-total');
+    var previousBalanceAmount = balance();
     // new balance
-    var newBalance = newDepositeAmount + previousBalanceAmount;
-    previousBalance.innerText = newBalance;
+    if(add == true) {
+        var newBalance = previousBalanceAmount + newAddedAmount;
+        previousBalance.innerText = newBalance;
+    }
+    else {
+        var newBalance = previousBalanceAmount - newAddedAmount;
+        previousBalance.innerText = newBalance;
+    }
+}
 
+// deposite
+document.getElementById('deposite-btn').addEventListener('click', function() {
+    var newDepositeAmount = inputId('deposite-input');
+    var previousBalance = balance();
+    if (newDepositeAmount > 0 && newDepositeAmount < previousBalance) {
+        previous('deposite-total', newDepositeAmount);
+        updateBalance (newDepositeAmount,true);
+    }
 }) 
 
-
 // Withdraw
-
 document.getElementById('withdraw-btn').addEventListener('click', function() {
-
-    // get new Withdraw amount
-    var newWithdraw = document.getElementById('withdraw-input');
-    var newWithdrawAmountText = newWithdraw.value;
-    // console.log(newWithdrawAmountText);
-    var newWithdrawAmount = parseFloat(newWithdrawAmountText);
-    // console.log(newWithdrawAmount);
-    newWithdraw.value = '';
-
-    // get previous amoubt on Withdraw
-    var previousWithdraw = document.getElementById('withdraw-total');
-    var previousWithdrawAmountText = previousWithdraw.innerText;
-    var previousWithdrawAmount = parseFloat(previousWithdrawAmountText);
-    
-    // total Withdraw
-    var newTotalWithdraw = newWithdrawAmount + previousWithdrawAmount;
-    previousWithdraw.innerText = newTotalWithdraw;
-
-    /* update account balance */
-
-    // get previous balance
-    var previousBalance = document.getElementById('balance-total');
-    var previousBalanceAmountText = previousBalance.innerText;
-    var previousBalanceAmount = parseFloat(previousBalanceAmountText);
-
-    // new balance
-    var newBalance = previousBalanceAmount - newWithdrawAmount;
-    previousBalance.innerText = newBalance;
-
+    var newWithdrawAmount = inputId('withdraw-input');
+    var previousBalance = balance();
+    if (newWithdrawAmount > 0 && newWithdrawAmount < previousBalance) {
+        previous('withdraw-total', newWithdrawAmount);
+        updateBalance (newWithdrawAmount,false);
+    }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
