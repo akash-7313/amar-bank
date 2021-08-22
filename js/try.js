@@ -46,10 +46,21 @@ function previous (newAdd,adding) {
 
 document.getElementById('deposite-btn').addEventListener('click', function() {
     var newDepositeAmount = id('deposite-input');
-    var previousBalance = balance();
-    if (newDepositeAmount>0 && newDepositeAmount < previousBalance){
+    if (newDepositeAmount>0){
         inputAmount ('deposite-total',newDepositeAmount);
         previous(newDepositeAmount,true);
+    }
+}) 
+
+
+// withdraw
+
+document.getElementById('withdraw-btn').addEventListener('click', function() {
+    var newWithdrawAmount = id('withdraw-input');
+    var previousBalance = balance();
+    if (newWithdrawAmount >0 && newWithdrawAmount < previousBalance){
+        inputAmount ('withdraw-total',newWithdrawAmount);
+        previous(newWithdrawAmount,false);
     }
 }) 
 
